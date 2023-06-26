@@ -106,3 +106,10 @@ input:focus,
 button:focus {
   outline: none;
 }
+
+.task-count {
+  color: #ccc;
+  font-size: 18px;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
