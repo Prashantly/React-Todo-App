@@ -6,7 +6,7 @@ import axios from "axios";
 
 function App() {
   const [todos, setTodos] = useState([]);
-
+  const [editTodo, setEditTodo] = useState(null);
   useEffect(() => {
     axios
       .get("https://jsonplaceholder.typicode.com/todos")
@@ -25,10 +25,19 @@ function App() {
           <Header />
         </div>
         <div>
-          <Form todos={todos} setTodos={setTodos} />
+          <Form
+            todos={todos}
+            setTodos={setTodos}
+            editTodo={editTodo}
+            setEditTodo={setEditTodo}
+          />
         </div>
         <div>
-          <TodoList todos={todos} setTodos={setTodos} />
+          <TodoList
+            todos={todos}
+            setTodos={setTodos}
+            setEditTodo={setEditTodo}
+          />
         </div>
       </div>
     </div>
