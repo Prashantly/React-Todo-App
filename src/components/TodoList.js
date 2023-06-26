@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 
@@ -26,9 +27,18 @@ const TodoList = ({ todos, setTodos, setEditTodo }) => {
 
   //Handle Delete todo
   const handleDelete = (todo) => {
-    const newTodos = todos.filter((item) => item !== todo);
-    toast.success("Task has been deleted Sucessfully ✌️✌️");
-    setTodos(newTodos);
+    //make api request to delete todo
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/todos/${todo.id}`)
+      .then((response) => {
+        // console.log("Delete response", response.data);
+        const newTodos = todos.filter((item) => item !== todo);
+        setTodos(newTodos);
+        toast.success("Task has been deleted Sucessfully ✌️✌️");
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
   };
   return (
     <div>

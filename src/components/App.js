@@ -8,14 +8,18 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [editTodo, setEditTodo] = useState(null);
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((err) => {
-        console.log("Error", err);
-      });
+    function fetchTodos() {
+      axios
+        .get("https://jsonplaceholder.typicode.com/todos")
+        .then((response) => {
+          const data = response.data.slice(0, 10);
+          setTodos(data);
+        })
+        .catch((err) => {
+          console.log("Error", err);
+        });
+    }
+    fetchTodos();
   }, []);
 
   return (

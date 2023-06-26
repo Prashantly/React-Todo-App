@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const Form = ({ todos, setTodos, editTodo, setEditTodo }) => {
   const [input, setInput] = useState("");
@@ -13,13 +14,14 @@ const Form = ({ todos, setTodos, editTodo, setEditTodo }) => {
     }
   }, [setInput, editTodo]);
 
-  const updatedTodo = (title, id, completed) => {
+  const updatedTodo = (title, id, completed, userId) => {
     const newTodos = todos.map((item) => {
       if (item.id === id) {
         return {
           title,
           id,
           completed,
+          userId,
         };
       }
       return item;
@@ -40,23 +42,47 @@ const Form = ({ todos, setTodos, editTodo, setEditTodo }) => {
       return;
     }
 
-    if (!editTodo) {
-      setTodos([
-        ...todos,
-        {
-          id: uuidv4(),
-          title: input,
-          completed: false,
-        },
-      ]);
+    const todoData = {
+      id: editTodo ? editTodo.id : uuidv4(),
+      title: input,
+      completed: editTodo ? editTodo.completed : false,
+      userId: 1,
+    };
 
-      toast.success("Task added successfully 😍😍");
+    if (editTodo) {
+      axios
+        .put(
+          `https://jsonplaceholder.typicode.com/todos/${editTodo.id}`,
+          todoData
+        )
+        .then((response) => {
+          // console.log("Edit response data", response);
 
-      setInput("");
+          updatedTodo(
+            response.data.title,
+            response.data.id,
+            response.data.completed,
+            response.data.userId
+          );
+          toast.success("Task has been updated successfully ✌️✌️");
+        })
+        .catch((error) => {
+          console.log("Edit request error", error);
+        });
     } else {
-      updatedTodo(input, editTodo.id, editTodo.completed);
-      toast.success("Task has been updated successfully ✌️✌️");
+      axios
+        .post("https://jsonplaceholder.typicode.com/todos", todoData)
+        .then((response) => {
+          // console.log("Post request resposnse", response.data);
+          setTodos([response.data, ...todos]);
+          toast.success("Task added successfully 😍😍");
+        })
+        .catch((error) => {
+          console.log("Post request error", error);
+        });
     }
+
+    setInput("");
   };
 
   return (
