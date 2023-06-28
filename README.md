@@ -43,6 +43,9 @@ This is a simple Todo application built using React. It allows you to fetch, add
 
 - To mark complete or not complete, click on circular check to toggle.
 
+## Website
+[Visit the Deployed Website](https://peaceful-biscochitos-c2767a.netlify.app)
+
 ## License
 
 This project is licensed under the MIT License.
