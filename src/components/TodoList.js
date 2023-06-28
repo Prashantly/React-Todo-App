@@ -48,6 +48,7 @@ const TodoList = ({ todos, setTodos, setEditTodo }) => {
             type="text"
             value={todo.title}
             className={`list ${todo.completed ? "complete" : ""}`}
+            onChange={() => {}}
           />
           <div>
             <button
